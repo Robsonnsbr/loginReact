@@ -1,10 +1,11 @@
 import { useState, useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
+
 import { Button, ContainerField, Form, Page, Wrapper } from "../../components";
 import { Link } from "react-router-dom";
 
 export const LoginPage = () => {
-  const { isAuthenticated, login, session } = useContext(AuthContext);
+  const { isAuthenticated, login, error } = useContext(AuthContext);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -51,15 +52,13 @@ export const LoginPage = () => {
             value={"Entrar"}
           />
         </Form>
-        {!session && !isAuthenticated && (
+        {!error && !isAuthenticated && (
           <span style={{ color: "transparent", margin: "0px" }}>
             #gambiarra#
           </span>
         )}
-        {session && !isAuthenticated && (
-          <span style={{ color: "var(--error)", margin: "0px" }}>
-            Usuário ou senha inválidos!
-          </span>
+        {error && !isAuthenticated && (
+          <span style={{ color: "var(--error)", margin: "0px" }}>{error}</span>
         )}
 
         <Link to={"/cadastro"}>

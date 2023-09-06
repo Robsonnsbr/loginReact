@@ -8,6 +8,7 @@ import { useContext } from "react";
 
 import { CadastroPage, HomePage, LoginPage } from "../pages";
 import { AuthProvider, AuthContext } from "../contexts/AuthContext";
+import { CadastroProvider } from "../contexts/CadastroContext";
 interface PrivateProps {
   children: React.ReactElement;
 }
@@ -31,18 +32,22 @@ export const AppRoutes = () => {
   return (
     <Router>
       <AuthProvider>
-        <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/cadastro" element={<CadastroPage />} />
-          <Route
-            path="/"
-            element={
-              <Private>
-                <HomePage />
-              </Private>
-            }
-          />
-        </Routes>
+        <CadastroProvider>
+          <Routes>
+            <Route path="/login" element={<LoginPage />} />
+
+            <Route path="/cadastro" element={<CadastroPage />} />
+
+            <Route
+              path="/"
+              element={
+                <Private>
+                  <HomePage />
+                </Private>
+              }
+            />
+          </Routes>
+        </CadastroProvider>
       </AuthProvider>
     </Router>
   );

@@ -13,15 +13,9 @@ interface IPropsAuth {
   token: string | null;
   session: boolean;
   loading?: boolean;
-  error: null | string;
   login: (email: string, password: string) => void;
-  cadastro: (
-    email: string,
-    password: string,
-    confirmEmail: string,
-    confirmPassword: string
-  ) => void;
   logout: () => void;
+  error: null | string;
 }
 
 interface AuthProviderProps {
@@ -30,19 +24,16 @@ interface AuthProviderProps {
 
 const initialProps: IPropsAuth = {
   isAuthenticated: false,
-  error: null,
   token: null,
   session: false,
   loading: true,
-  cadastro: () => {
-    throw new Error("Function not implemented.");
-  },
   login: () => {
     throw new Error("Function not implemented.");
   },
   logout: () => {
     throw new Error("Function not implemented.");
   },
+  error: null,
 };
 
 export const AuthContext = createContext<IPropsAuth>(initialProps);
@@ -62,62 +53,20 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     (async () => {
       const recoveredToken = await localStorage.getItem("token");
       const recoveredUser = await localStorage.getItem("users_db");
-      setTimeout(() => {
-        if (recoveredToken && recoveredUser) {
-          const hasUser = JSON.parse(recoveredUser).filter(
-            (user: User) => user.email === JSON.parse(recoveredToken).email
-          );
-          if (hasUser) {
-            setToken(recoveredToken);
-            navigate("/");
-          }
+      if (recoveredToken && recoveredUser) {
+        const hasUser = JSON.parse(recoveredUser).filter(
+          (user: User) => user.email === JSON.parse(recoveredToken).email
+        );
+        if (hasUser) {
+          setToken(recoveredToken);
+          navigate("/");
         }
-      }, 2000);
+      }
     })();
   }, []);
 
-  const cadastro = async (
-    email: string,
-    confirmEmail: string,
-    password: string,
-    confirmePassword: string
-  ) => {
-    if (email === confirmEmail && password === confirmePassword) {
-      setError(null);
-      console.log("os dados conferem!");
-      const recoveredUsers = localStorage.getItem("users_db");
-
-      if (recoveredUsers) {
-        const hasRecoveredUsers = JSON.parse(recoveredUsers);
-        const hasUser = hasRecoveredUsers.filter((user: User) => {
-          console.log("banco:", user.email, "enviado:", email);
-          return user.email === email;
-        });
-
-        if (hasUser.length > 0) {
-          console.log("Email já cadastrado!");
-          return "Email já cadastrado!";
-        }
-      }
-
-      if (recoveredUsers) {
-        const parsedRecoveredUsers = JSON.parse(recoveredUsers);
-        parsedRecoveredUsers.push({ email, password });
-        localStorage.setItem("users_db", JSON.stringify(parsedRecoveredUsers));
-        console.log("Mais um usuários cadastrado!");
-      } else {
-        localStorage.setItem("users_db", JSON.stringify([{ email, password }]));
-        console.log("Novo Usuário Cadastrado!");
-      }
-      return;
-    } else {
-      setError("Os dados informados não conferem!");
-    }
-  };
-
   const login = async (email: string, password: string) => {
     const recoveredUsers = localStorage.getItem("users_db");
-    console.log(recoveredUsers);
     if (recoveredUsers) {
       const hasRecoveredUsers = JSON.parse(recoveredUsers);
       const hasUser = hasRecoveredUsers.filter(
@@ -129,16 +78,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           localStorage.setItem("token", JSON.stringify({ email, token }));
           setToken(token);
           navigate("/");
-          console.log("SUCESSO!");
           return;
         } else {
-          console.log("Email ou senha incorretos");
-          return "Email ou senha incorretos";
+          return setError("Email ou senha incorretos");
         }
-      } else {
-        console.log("Usuário não cadastrado");
-        return "Usuário não cadastrado";
       }
+    } else {
+      return setError("Usuário não cadastrado");
     }
   };
 
@@ -157,10 +103,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         isAuthenticated: !!token,
         token,
         session,
-        error,
-        cadastro,
         login,
         logout,
+        error,
       }}
     >
       {children}

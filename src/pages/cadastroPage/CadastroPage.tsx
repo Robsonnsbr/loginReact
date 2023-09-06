@@ -1,10 +1,14 @@
 import { useState, useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
+import { CadastroContext } from "../../contexts/CadastroContext";
 import { Button, ContainerField, Form, Page, Wrapper } from "../../components";
 import { useNavigate } from "react-router-dom";
 
 export const CadastroPage = () => {
-  const { isAuthenticated, cadastro, error } = useContext(AuthContext);
+  const { isAuthenticated } = useContext(AuthContext);
+
+  const { cadastro, error } = useContext(CadastroContext);
+
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -12,6 +16,7 @@ export const CadastroPage = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleSubmit = (event: React.FormEvent) => {
+    console.log(error);
     event.preventDefault(),
       cadastro(email, confirmEmail, password, confirmPassword);
   };
@@ -81,12 +86,12 @@ export const CadastroPage = () => {
             value={"Cadastrar"}
           />
         </Form>
-        {!error && !isAuthenticated && (
+        {!error && (
           <span style={{ color: "transparent", marginBottom: "20px" }}>
             #gambiarra#
           </span>
         )}
-        {error && !isAuthenticated && (
+        {error && (
           <span style={{ color: "var(--error)", marginBottom: "20px" }}>
             {error}
           </span>
