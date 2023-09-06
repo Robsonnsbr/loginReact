@@ -69,46 +69,21 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       const hasUser = hasRecoveredUsers.filter(
         (user: User) => user.email === email
       );
-      console.log("entrei aqui");
-      if (hasUser?.length) {
+      if (hasUser.length) {
         if (hasUser[0].email === email && hasUser[0].password === password) {
           const token = Math.random().toString(36).substring(2);
           localStorage.setItem("token", JSON.stringify({ email, token }));
           setToken(token);
-          // navigate("/");
+          navigate("/");
           return;
         } else {
           return setError("Email ou senha incorretos");
         }
+      } else {
+        return setError("Usuário não cadastrado");
       }
-    } else {
-      return setError("Usuário não cadastrado");
     }
   };
-
-  // const logout = () => {
-  //   setToken(null);
-  //   const recoveredToken = localStorage.getItem("token");
-  //   const recoveredUser = localStorage.getItem("users_db");
-  //   if (recoveredToken && recoveredUser) {
-  //     const newUsers = JSON.parse(recoveredUser).filter(
-  //       (user: User, index: string) => {
-  //         if (user.email === JSON.parse(recoveredToken).email) {
-  //           const users = JSON.parse(recoveredToken).splice(index, 1);
-  //           return users;
-  //         }
-  //       }
-  //     );
-  //     localStorage.removeItem("token");
-  //     localStorage.setItem("users_db", JSON.stringify(newUsers));
-  //     // api.defaults.headers.Authorization = null; apenas no caso de api
-  //     //TODO: aplicar fix para limpar apenas o usuário atual...
-  //   } else {
-  //     console.log("ERRO ao tentar encontrar index!");
-  //     return setError("ERRO");
-  //   }
-  //   navigate("/login");
-  // };
 
   const logout = () => {
     setToken(null);

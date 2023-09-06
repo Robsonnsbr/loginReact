@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 
 export const LoginPage = () => {
   const { isAuthenticated, login, error } = useContext(AuthContext);
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
