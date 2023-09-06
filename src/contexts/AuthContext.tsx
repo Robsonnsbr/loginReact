@@ -11,7 +11,6 @@ type User = {
 interface IPropsAuth {
   isAuthenticated: boolean;
   token: string | null;
-  session: boolean;
   loading?: boolean;
   login: (email: string, password: string) => void;
   logout: () => void;
@@ -25,7 +24,6 @@ interface AuthProviderProps {
 const initialProps: IPropsAuth = {
   isAuthenticated: false,
   token: null,
-  session: false,
   loading: true,
   login: () => {
     throw new Error("Function not implemented.");
@@ -40,7 +38,6 @@ export const AuthContext = createContext<IPropsAuth>(initialProps);
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const navigate = useNavigate();
-  const [session, setSession] = useState<boolean>(false);
   const [token, setToken] = useState<null | string>(null);
   const [error, setError] = useState<null | string>(null);
   // const [loading, setLoading] = useState(true);
@@ -72,12 +69,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       const hasUser = hasRecoveredUsers.filter(
         (user: User) => user.email === email
       );
-      if (hasUser.length) {
+      console.log("entrei aqui");
+      if (hasUser?.length) {
         if (hasUser[0].email === email && hasUser[0].password === password) {
           const token = Math.random().toString(36).substring(2);
           localStorage.setItem("token", JSON.stringify({ email, token }));
           setToken(token);
-          navigate("/");
+          // navigate("/");
           return;
         } else {
           return setError("Email ou senha incorretos");
@@ -88,12 +86,54 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
+  // const logout = () => {
+  //   setToken(null);
+  //   const recoveredToken = localStorage.getItem("token");
+  //   const recoveredUser = localStorage.getItem("users_db");
+  //   if (recoveredToken && recoveredUser) {
+  //     const newUsers = JSON.parse(recoveredUser).filter(
+  //       (user: User, index: string) => {
+  //         if (user.email === JSON.parse(recoveredToken).email) {
+  //           const users = JSON.parse(recoveredToken).splice(index, 1);
+  //           return users;
+  //         }
+  //       }
+  //     );
+  //     localStorage.removeItem("token");
+  //     localStorage.setItem("users_db", JSON.stringify(newUsers));
+  //     // api.defaults.headers.Authorization = null; apenas no caso de api
+  //     //TODO: aplicar fix para limpar apenas o usuário atual...
+  //   } else {
+  //     console.log("ERRO ao tentar encontrar index!");
+  //     return setError("ERRO");
+  //   }
+  //   navigate("/login");
+  // };
+
   const logout = () => {
-    setSession(false);
     setToken(null);
-    // api.defaults.headers.Authorization = null; apenas no caso de api
-    localStorage.removeItem("users_db"); //TODO: aplicar fix para limpar apenas o usuário atual...
-    localStorage.removeItem("token");
+    const recoveredToken = localStorage.getItem("token");
+    const recoveredUser = localStorage.getItem("users_db");
+
+    if (recoveredToken && recoveredUser) {
+      const token = JSON.parse(recoveredToken);
+      const users = JSON.parse(recoveredUser);
+
+      const index = users.findIndex((user: User) => user.email === token.email);
+
+      if (index !== -1) {
+        users.splice(index, 1);
+        localStorage.removeItem("token");
+        localStorage.setItem("users_db", JSON.stringify(users));
+      } else {
+        console.log("ERRO ao tentar encontrar index!");
+        setError("ERRO");
+      }
+    } else {
+      console.log("ERRO ao tentar encontrar token ou users_db!");
+      setError("ERRO");
+    }
+
     navigate("/login");
   };
 
@@ -102,7 +142,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       value={{
         isAuthenticated: !!token,
         token,
-        session,
         login,
         logout,
         error,
