@@ -1,0 +1,71 @@
+import { useState, useContext } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
+import { Button, ContainerField, Form, Page, Wrapper } from "../../components";
+import { Link } from "react-router-dom";
+
+export const LoginPage = () => {
+  const { isAuthenticated, login, session } = useContext(AuthContext);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault(), login(email, password);
+  };
+
+  return (
+    <Page>
+      <Wrapper>
+        <h1>LOGIN DO SISTEMA</h1>
+        <p>{isAuthenticated.toString()}</p>
+        <Form onSubmit={(e) => handleSubmit(e)} method={"post"}>
+          <ContainerField>
+            <label htmlFor="email">E-mail:</label>
+            <input
+              autoComplete="true"
+              type="email"
+              id="email"
+              placeholder="e-mail"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              required
+            />
+          </ContainerField>
+          <ContainerField>
+            <label htmlFor="password">Password:</label>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              placeholder="password"
+              required
+            />
+          </ContainerField>
+          <Button
+            backgroundcolor="var(--buttonEnter)"
+            type={"submit"}
+            id={"btnSubmit"}
+            name={"btnSubmit"}
+            value={"Entrar"}
+          />
+        </Form>
+        {!session && !isAuthenticated && (
+          <span style={{ color: "transparent", margin: "0px" }}>
+            #gambiarra#
+          </span>
+        )}
+        {session && !isAuthenticated && (
+          <span style={{ color: "var(--error)", margin: "0px" }}>
+            Usuário ou senha inválidos!
+          </span>
+        )}
+
+        <Link to={"/cadastro"}>
+          <span>cadastre-se</span>
+        </Link>
+      </Wrapper>
+    </Page>
+  );
+};
