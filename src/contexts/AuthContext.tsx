@@ -48,6 +48,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     //chamada da api é assim que conseguimos utilizar o await
     //criando uma função async auto-invocável dentro do useEffect
     (async () => {
+      setError(null);
       const recoveredToken = await localStorage.getItem("token");
       const recoveredUser = await localStorage.getItem("users_db");
       if (recoveredToken && recoveredUser) {
@@ -77,11 +78,25 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           navigate("/");
           return;
         } else {
-          return setError("Email ou senha incorretos");
+          setError("Email ou senha incorretos");
+          setTimeout(() => {
+            setError(null);
+          }, 5000);
+          return;
         }
       } else {
-        return setError("Usuário não cadastrado");
+        setError("Usuário não cadastrado");
+        setTimeout(() => {
+          setError(null);
+        }, 5000);
+        return;
       }
+    } else {
+      setError("Usuário não cadastrado");
+      setTimeout(() => {
+        setError(null);
+      }, 5000);
+      return;
     }
   };
 

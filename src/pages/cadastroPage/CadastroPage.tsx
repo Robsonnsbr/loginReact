@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { CadastroContext } from "../../contexts/CadastroContext";
 import { Button, ContainerField, Form, Page, Wrapper } from "../../components";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const CadastroPage = () => {
   const { isAuthenticated } = useContext(AuthContext);
@@ -86,6 +86,7 @@ export const CadastroPage = () => {
             value={"Cadastrar"}
           />
         </Form>
+        <Link to={"/Login"}>Login</Link>
         {!error && (
           <span style={{ color: "transparent", marginBottom: "20px" }}>
             #gambiarra#
