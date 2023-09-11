@@ -4,7 +4,7 @@ export interface ButtonProps {
   type?: "button" | "submit" | "reset";
   id: string;
   name?: string;
-  value: string;
+  value?: string;
   backgroundcolor?: string;
   onClick?: () => void;
 }

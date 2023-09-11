@@ -17,16 +17,16 @@ export const LoginPage = () => {
     <Page>
       <Wrapper>
         <h1>LOGIN DO SISTEMA</h1>
-        <p>{isAuthenticated.toString()}</p>
         <Form onSubmit={(e) => handleSubmit(e)} method={"post"}>
           <ContainerField>
             <label htmlFor="email">E-mail:</label>
             <input
+              autoFocus
               autoComplete="true"
               type="email"
               id="email"
               placeholder="e-mail"
-              value={email}
+              value={email.toLowerCase()}
               onChange={(event) => setEmail(event.target.value)}
               required
             />

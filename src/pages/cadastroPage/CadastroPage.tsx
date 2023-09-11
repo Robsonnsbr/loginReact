@@ -6,7 +6,6 @@ import { Link, useNavigate } from "react-router-dom";
 
 export const CadastroPage = () => {
   const { isAuthenticated } = useContext(AuthContext);
-
   const { cadastro, error } = useContext(CadastroContext);
 
   const navigate = useNavigate();
@@ -14,6 +13,19 @@ export const CadastroPage = () => {
   const [password, setPassword] = useState("");
   const [confirmEmail, setConfirmEmail] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const inputsBlock = document.querySelectorAll(".block");
+  inputsBlock.forEach((element) => {
+    element.addEventListener("paste", (e) => {
+      e.preventDefault();
+    });
+    element.addEventListener("copy", (e) => {
+      e.preventDefault();
+    });
+    element.addEventListener("cut", (e) => {
+      e.preventDefault();
+    });
+  });
 
   const handleSubmit = (event: React.FormEvent) => {
     console.log(error);
@@ -33,7 +45,9 @@ export const CadastroPage = () => {
           <ContainerField>
             <label htmlFor="email">E-mail:</label>
             <input
-              autoComplete="true"
+              autoFocus
+              className="block"
+              autoComplete="nope"
               type="email"
               id="email"
               placeholder="e-mail"
@@ -45,7 +59,8 @@ export const CadastroPage = () => {
           <ContainerField>
             <label htmlFor="ConfirmarEmail">Confirmar e-mail:</label>
             <input
-              autoComplete="true"
+              className="block"
+              autoComplete="nope"
               type="email"
               id="ConfirmarEmail"
               placeholder="confirmar e-mail"
@@ -55,20 +70,9 @@ export const CadastroPage = () => {
             />
           </ContainerField>
           <ContainerField>
-            <label htmlFor="ConfirmarPassword">Senha:</label>
+            <label htmlFor="password">Senha:</label>
             <input
-              type="password"
-              name="ConfirmarPassword"
-              id="ConfirmarPassword"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              placeholder="senha"
-              required
-            />
-          </ContainerField>
-          <ContainerField>
-            <label htmlFor="password">Confirmar senha:</label>
-            <input
+              className="block"
               type="password"
               name="password"
               id="password"
@@ -78,6 +82,20 @@ export const CadastroPage = () => {
               required
             />
           </ContainerField>
+          <ContainerField>
+            <label htmlFor="ConfirmarPassword">Confirmar senha:</label>
+            <input
+              className="block"
+              type="password"
+              name="ConfirmarPassword"
+              id="ConfirmarPassword"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              placeholder="senha"
+              required
+            />
+          </ContainerField>
+
           <Button
             backgroundcolor="var(--buttonEnter)"
             type={"submit"}

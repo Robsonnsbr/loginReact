@@ -15,6 +15,7 @@ export const StyledForm = styled.form`
 `;
 
 export const StyledContainerField = styled.div`
+  border-radius: 6px;
   font-size: 20px;
   font-weight: 600;
   display: grid;
@@ -25,10 +26,11 @@ export const StyledContainerField = styled.div`
   box-shadow: 0 0 2px 1px #00000086;
 
   & input {
+    border-radius: 3px;
     color: var(--on-secondary);
     font-size: 16px;
     padding: 5px;
     text-align: center;
-    box-shadow: inset 0 0 2px 1px #00000086;
+    box-shadow: inset 0 0 1px 1px #00000086;
   }
 `;

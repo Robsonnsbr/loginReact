@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const StyledWrapper = styled.section`
+  border-radius: 6px;
   display: flex;
   justify-content: center;
   align-items: center;

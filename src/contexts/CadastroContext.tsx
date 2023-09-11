@@ -1,14 +1,8 @@
 import { createContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { User } from "../@types/User";
 
-type User = {
-  id?: string;
-  email?: string;
-  password?: string;
-  token?: string;
-};
-
-interface IPropsAuth {
+interface IPropsCadastro {
   error: null | string;
   cadastro: (
     email: string,
@@ -18,20 +12,20 @@ interface IPropsAuth {
   ) => void;
 }
 
-interface AuthProviderProps {
+interface CadastroProviderProps {
   children: JSX.Element;
 }
 
-const initialProps: IPropsAuth = {
+const initialProps: IPropsCadastro = {
   error: null,
   cadastro: () => {
     throw new Error("Function not implemented.");
   },
 };
 
-export const CadastroContext = createContext<IPropsAuth>(initialProps);
+export const CadastroContext = createContext<IPropsCadastro>(initialProps);
 
-export const CadastroProvider = ({ children }: AuthProviderProps) => {
+export const CadastroProvider = ({ children }: CadastroProviderProps) => {
   const navigate = useNavigate();
   const [error, setError] = useState<null | string>(null);
 

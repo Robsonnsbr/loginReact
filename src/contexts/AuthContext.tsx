@@ -11,6 +11,7 @@ type User = {
 interface IPropsAuth {
   isAuthenticated: boolean;
   token: string | null;
+  user: User | null;
   loading?: boolean;
   login: (email: string, password: string) => void;
   logout: () => void;
@@ -25,6 +26,7 @@ interface AuthProviderProps {
 const initialProps: IPropsAuth = {
   isAuthenticated: false,
   token: null,
+  user: null,
   loading: true,
   login: () => {
     throw new Error("Function not implemented.");
@@ -45,7 +47,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [token, setToken] = useState<null | string>(null);
   const [error, setError] = useState<null | string>(null);
   // const [loading, setLoading] = useState(true);
-  // const [user, setUser] = useState<null | User>(null);
+  const [user, setUser] = useState<null | User>(null);
 
   useEffect(() => {
     //O await aqui não tem necessidade, mas caso haja uma
@@ -67,6 +69,22 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     })();
   }, []);
 
+  const recovered = () => {
+    const recoveredToken = localStorage.getItem("token");
+    const recoveredUser = localStorage.getItem("users_db");
+    return { recoveredToken, recoveredUser };
+  };
+
+  const getItems = () => {
+    const { recoveredToken, recoveredUser } = recovered();
+    if (recoveredToken && recoveredUser) {
+      const token = JSON.parse(recoveredToken);
+      const users = JSON.parse(recoveredUser);
+      return { token, users };
+    }
+    return;
+  };
+
   const login = async (email: string, password: string) => {
     const recoveredUsers = localStorage.getItem("users_db");
     if (recoveredUsers) {
@@ -78,6 +96,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         if (hasUser[0].email === email && hasUser[0].password === password) {
           const token = Math.random().toString(36).substring(2);
           localStorage.setItem("token", JSON.stringify({ email, token }));
+          const currentUser: User = hasUser[0];
+          setUser(currentUser);
           setToken(token);
           navigate("/");
           return;
@@ -104,22 +124,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
-  const recovered = () => {
-    const recoveredToken = localStorage.getItem("token");
-    const recoveredUser = localStorage.getItem("users_db");
-    return { recoveredToken, recoveredUser };
-  };
-
-  const getItems = () => {
-    const { recoveredToken, recoveredUser } = recovered();
-    if (recoveredToken && recoveredUser) {
-      const token = JSON.parse(recoveredToken);
-      const users = JSON.parse(recoveredUser);
-      return { token, users };
-    }
-    return;
-  };
-
   const logout = () => {
     setToken(null);
 
@@ -132,12 +136,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       if (index !== -1) {
         localStorage.removeItem("token");
       } else {
-        console.log("ERRO ao tentar encontrar index!");
-        setError("ERRO");
+        console.log("Index not found!");
+        setError("Index not found");
       }
     } else {
-      console.log("ERRO ao tentar encontrar token ou users_db!");
-      setError("ERRO");
+      console.log("Token/Users not found");
+      setError("Token/Users not found");
     }
 
     navigate("/login");
@@ -152,16 +156,18 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       const index = users.findIndex((user: User) => user.email === token.email);
 
       if (index !== -1) {
+        const currentUser: User = users[index];
         users.splice(index, 1);
         localStorage.removeItem("token");
         localStorage.setItem("users_db", JSON.stringify(users));
+        alert(`Usuário ${currentUser.email} Excluído com sucesso!`);
       } else {
-        console.log("ERRO ao tentar encontrar index!");
-        setError("ERRO");
+        console.log("Index not found!");
+        setError("Index not found");
       }
     } else {
-      console.log("ERRO ao tentar encontrar token ou users_db!");
-      setError("ERRO");
+      console.log("Token/Users not found");
+      setError("Token/Users not found");
     }
 
     navigate("/login");
@@ -175,6 +181,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         login,
         logout,
         deleteUser,
+        user,
         error,
       }}
     >
