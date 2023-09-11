@@ -39,7 +39,7 @@ export const AppRoutes = () => {
             <Route path="/cadastro" element={<CadastroPage />} />
 
             <Route
-              path="/"
+              path="/portfolio/*"
               element={
                 <Private>
                   <HomePage />
