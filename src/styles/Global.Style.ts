@@ -8,7 +8,7 @@ export const GlobalStyle = createGlobalStyle`
     --on-primary: #fafafa;
     --on-secondary: #000504;
     --buttonEnter: #5cb86f;
-    --buttonLogout: #b85c5c;
+    --buttonDelete: #b85c5c;
     --error: #f00;
 }
 

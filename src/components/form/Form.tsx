@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { ContainerFieldStyle, FormStyle } from "./Form.style";
+import * as S from "./Form.style";
 
 interface FormProps {
   onSubmit?: (event: React.FormEvent<HTMLFormElement>) => void;
@@ -13,12 +13,12 @@ interface ContainerFieldProps {
 
 export const Form = ({ onSubmit, method, children }: FormProps) => {
   return (
-    <FormStyle onSubmit={onSubmit} method={method}>
+    <S.StyledForm onSubmit={onSubmit} method={method}>
       {children}
-    </FormStyle>
+    </S.StyledForm>
   );
 };
 
 export const ContainerField = ({ children }: ContainerFieldProps) => {
-  return <ContainerFieldStyle>{children}</ContainerFieldStyle>;
+  return <S.StyledContainerField>{children}</S.StyledContainerField>;
 };

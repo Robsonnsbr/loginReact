@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const FormStyle = styled.form`
+export const StyledForm = styled.form`
   color: var(--on-secondary);
   display: flex;
   justify-content: center;
@@ -14,7 +14,7 @@ export const FormStyle = styled.form`
   }
 `;
 
-export const ContainerFieldStyle = styled.div`
+export const StyledContainerField = styled.div`
   font-size: 20px;
   font-weight: 600;
   display: grid;

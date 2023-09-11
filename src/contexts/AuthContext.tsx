@@ -14,6 +14,7 @@ interface IPropsAuth {
   loading?: boolean;
   login: (email: string, password: string) => void;
   logout: () => void;
+  deleteUser: () => void;
   error: null | string;
 }
 
@@ -29,6 +30,9 @@ const initialProps: IPropsAuth = {
     throw new Error("Function not implemented.");
   },
   logout: () => {
+    throw new Error("Function not implemented.");
+  },
+  deleteUser: () => {
     throw new Error("Function not implemented.");
   },
   error: null,
@@ -100,15 +104,51 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
-  const logout = () => {
-    setToken(null);
+  const recovered = () => {
     const recoveredToken = localStorage.getItem("token");
     const recoveredUser = localStorage.getItem("users_db");
+    return { recoveredToken, recoveredUser };
+  };
 
+  const getItems = () => {
+    const { recoveredToken, recoveredUser } = recovered();
     if (recoveredToken && recoveredUser) {
       const token = JSON.parse(recoveredToken);
       const users = JSON.parse(recoveredUser);
+      return { token, users };
+    }
+    return;
+  };
 
+  const logout = () => {
+    setToken(null);
+
+    const items = getItems();
+    if (items) {
+      const { token, users } = items;
+
+      const index = users.findIndex((user: User) => user.email === token.email);
+
+      if (index !== -1) {
+        localStorage.removeItem("token");
+      } else {
+        console.log("ERRO ao tentar encontrar index!");
+        setError("ERRO");
+      }
+    } else {
+      console.log("ERRO ao tentar encontrar token ou users_db!");
+      setError("ERRO");
+    }
+
+    navigate("/login");
+  };
+
+  const deleteUser = () => {
+    setToken(null);
+
+    const items = getItems();
+    if (items) {
+      const { token, users } = items;
       const index = users.findIndex((user: User) => user.email === token.email);
 
       if (index !== -1) {
@@ -134,6 +174,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         token,
         login,
         logout,
+        deleteUser,
         error,
       }}
     >

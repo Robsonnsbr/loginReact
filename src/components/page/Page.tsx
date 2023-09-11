@@ -1,10 +1,10 @@
 import { ReactNode } from "react";
-import { PageStyle } from "./Page.Style";
+import * as S from "./Page.Style";
 
 interface PageProps {
   children: ReactNode;
 }
 
 export const Page = ({ children }: PageProps) => {
-  return <PageStyle>{children}</PageStyle>;
+  return <S.StyledPage>{children}</S.StyledPage>;
 };

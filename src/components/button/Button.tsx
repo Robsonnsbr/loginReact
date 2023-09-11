@@ -1,4 +1,4 @@
-import { Button as StyledButton, ContainerButton } from "./Button.style";
+import * as S from "./Button.style";
 
 export interface ButtonProps {
   type?: "button" | "submit" | "reset";
@@ -18,8 +18,8 @@ export const Button = ({
   onClick,
 }: ButtonProps) => {
   return (
-    <ContainerButton>
-      <StyledButton
+    <S.StyledContainerButton>
+      <S.StyledButton
         backgroundcolor={backgroundcolor}
         type={type}
         id={id}
@@ -28,7 +28,7 @@ export const Button = ({
         onClick={onClick}
       >
         {value}
-      </StyledButton>
-    </ContainerButton>
+      </S.StyledButton>
+    </S.StyledContainerButton>
   );
 };

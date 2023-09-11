@@ -44,7 +44,7 @@ import { ButtonProps } from "./Button";
 
 type StyledProps = Pick<ButtonProps, "backgroundcolor">;
 
-export const ContainerButton = styled.div<StyledProps>`
+export const StyledContainerButton = styled.div<StyledProps>`
   box-shadow: 0 0 2px 1px #00000086;
   display: flex;
   justify-content: center;
@@ -55,7 +55,7 @@ export const ContainerButton = styled.div<StyledProps>`
   max-height: 56px;
 `;
 
-export const Button = styled.button<StyledProps>`
+export const StyledButton = styled.button<StyledProps>`
   padding: 10px;
   font-size: 14px;
   margin: 10px;
