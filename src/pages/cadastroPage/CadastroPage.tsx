@@ -51,7 +51,7 @@ export const CadastroPage = () => {
               type="email"
               id="email"
               placeholder="e-mail"
-              value={email}
+              value={email.toLowerCase()}
               onChange={(event) => setEmail(event.target.value)}
               required
             />
@@ -64,7 +64,7 @@ export const CadastroPage = () => {
               type="email"
               id="ConfirmarEmail"
               placeholder="confirmar e-mail"
-              value={confirmEmail}
+              value={confirmEmail.toLowerCase()}
               onChange={(event) => setConfirmEmail(event.target.value)}
               required
             />
