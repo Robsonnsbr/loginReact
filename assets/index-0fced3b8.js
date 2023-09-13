@@ -75,7 +75,8 @@ Error generating stack: `+l.message+`
   align-items: center;
   background-color: var(--third);
   margin: 5px;
-  width: 101px;
+  min-width: 101px;
+  max-width: 101px;
   height: 40px;
 `,Sv=pt.button`
   border-radius: 3px;
