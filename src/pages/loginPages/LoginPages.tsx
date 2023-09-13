@@ -60,7 +60,7 @@ export const LoginPage = () => {
           <span style={{ color: "var(--error)", margin: "0px" }}>{error}</span>
         )}
 
-        <Link to={"/cadastro"}>
+        <Link to={"/loginReact/cadastro"}>
           <span>cadastre-se</span>
         </Link>
       </Wrapper>

@@ -28,7 +28,6 @@ export const CadastroPage = () => {
   });
 
   const handleSubmit = (event: React.FormEvent) => {
-    console.log(error);
     event.preventDefault(),
       cadastro(email, confirmEmail, password, confirmPassword);
   };
@@ -104,7 +103,7 @@ export const CadastroPage = () => {
             value={"Cadastrar"}
           />
         </Form>
-        <Link to={"/Login"}>Login</Link>
+        <Link to={"/loginReact/Login"}>Login</Link>
         {!error && (
           <span style={{ color: "transparent", marginBottom: "20px" }}>
             #gambiarra#

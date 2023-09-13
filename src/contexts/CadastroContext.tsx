@@ -37,7 +37,6 @@ export const CadastroProvider = ({ children }: CadastroProviderProps) => {
   ) => {
     if (email === confirmEmail && password === confirmePassword) {
       setError(null);
-      console.log("os dados conferem!");
       const recoveredUsers = localStorage.getItem("users_db");
 
       if (recoveredUsers) {
@@ -55,14 +54,11 @@ export const CadastroProvider = ({ children }: CadastroProviderProps) => {
         const parsedRecoveredUsers = JSON.parse(recoveredUsers);
         parsedRecoveredUsers.push({ email, password });
         localStorage.setItem("users_db", JSON.stringify(parsedRecoveredUsers));
-
-        console.log("Mais um usuários cadastrado!");
       } else {
         localStorage.setItem("users_db", JSON.stringify([{ email, password }]));
-        console.log("Novo Usuário Cadastrado!");
       }
       alert("Sucesso no cadastro!");
-      return navigate("/login");
+      return navigate("/loginReact/login");
     } else {
       return setError("Os dados informados não conferem!");
     }

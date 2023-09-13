@@ -63,7 +63,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         );
         if (hasUser) {
           setToken(recoveredToken);
-          navigate("/");
+          navigate("/loginReact");
         }
       }
     })();
@@ -99,7 +99,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           const currentUser: User = hasUser[0];
           setUser(currentUser);
           setToken(token);
-          navigate("/");
+          navigate("/loginReact");
           return;
         } else {
           setError("Email ou senha incorretos");
@@ -136,15 +136,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       if (index !== -1) {
         localStorage.removeItem("token");
       } else {
-        console.log("Index not found!");
         setError("Index not found");
       }
     } else {
-      console.log("Token/Users not found");
       setError("Token/Users not found");
     }
 
-    navigate("/login");
+    navigate("/loginReact/*");
   };
 
   const deleteUser = () => {
@@ -162,15 +160,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         localStorage.setItem("users_db", JSON.stringify(users));
         alert(`Usuário ${currentUser.email} Excluído com sucesso!`);
       } else {
-        console.log("Index not found!");
         setError("Index not found");
       }
     } else {
-      console.log("Token/Users not found");
       setError("Token/Users not found");
     }
 
-    navigate("/login");
+    navigate("/loginReact/*");
   };
 
   return (
