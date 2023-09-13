@@ -11,7 +11,8 @@ export const StyledContainerButton = styled.div<StyledProps>`
   align-items: center;
   background-color: var(--third);
   margin: 5px;
-  width: 101px;
+  min-width: 101px;
+  max-width: 101px;
   height: 40px;
 `;
 
