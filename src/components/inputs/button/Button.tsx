@@ -24,7 +24,7 @@ export const Button = ({
         type={type}
         id={id}
         name={name}
-        value={value}
+        // value={value}
         onClick={onClick}
       >
         {value}

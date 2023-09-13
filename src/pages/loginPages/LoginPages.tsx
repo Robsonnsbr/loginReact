@@ -1,7 +1,14 @@
 import { useState, useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 
-import { Button, ContainerField, Form, Page, Wrapper } from "../../components";
+import {
+  Button,
+  ContainerField,
+  Form,
+  Page,
+  Slink,
+  Wrapper,
+} from "../../components";
 import { Link } from "react-router-dom";
 
 export const LoginPage = () => {
@@ -60,8 +67,8 @@ export const LoginPage = () => {
           <span style={{ color: "var(--error)", margin: "0px" }}>{error}</span>
         )}
 
-        <Link to={"/loginReact/cadastro"}>
-          <span>cadastre-se</span>
+        <Link to={"/loginReact/cadastro"} style={{ textDecoration: "none" }}>
+          <Slink value="Sign up" />
         </Link>
       </Wrapper>
     </Page>

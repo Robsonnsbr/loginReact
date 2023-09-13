@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { Page, Wrapper, Button } from "../../components";
-import { StyledButtonRow } from "../../components/button/Button.style";
+import { StyledButtonRow } from "../../components/inputs/button/Button.style";
 
 export const HomePage = () => {
   const { logout, deleteUser, user } = useContext(AuthContext);

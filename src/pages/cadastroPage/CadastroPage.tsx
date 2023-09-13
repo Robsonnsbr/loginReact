@@ -1,7 +1,14 @@
 import { useState, useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { CadastroContext } from "../../contexts/CadastroContext";
-import { Button, ContainerField, Form, Page, Wrapper } from "../../components";
+import {
+  Button,
+  ContainerField,
+  Form,
+  Page,
+  Slink,
+  Wrapper,
+} from "../../components";
 import { Link, useNavigate } from "react-router-dom";
 
 export const CadastroPage = () => {
@@ -103,7 +110,9 @@ export const CadastroPage = () => {
             value={"Cadastrar"}
           />
         </Form>
-        <Link to={"/loginReact/Login"}>Login</Link>
+        <Link to={"/loginReact/Login"} style={{ textDecoration: "none" }}>
+          <Slink value={"log in"} />
+        </Link>
         {!error && (
           <span style={{ color: "transparent", marginBottom: "20px" }}>
             #gambiarra#
