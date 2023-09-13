@@ -28,11 +28,18 @@ export const GlobalStyle = createGlobalStyle`
 
 html,
 body {
-    min-width: 100vh;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    background-color: #494949;
     min-height: 100vh;
-    overflow: hidden;
+    overflow: auto;
     font-family: system-ui, -apple-system, BlinkMacSystemFont,
         'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
         'Helvetica Neue', sans-serif;
 }
+
+body::-webkit-scrollbar {
+    width: 6px;
+    background-color: transparent; }
 `;
